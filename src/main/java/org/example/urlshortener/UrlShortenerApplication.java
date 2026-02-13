@@ -8,6 +8,5 @@ public class UrlShortenerApplication {
     public static void main(String[] args) {
         SpringApplication.run(UrlShortenerApplication.class, args);
     }
-    //khoanh khac cua su that
-    //nhanh dum t cai
+
 }
