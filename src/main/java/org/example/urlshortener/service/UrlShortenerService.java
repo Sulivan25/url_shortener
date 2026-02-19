@@ -1,5 +1,7 @@
 package org.example.urlshortener.service;
 
+import org.example.urlshortener.exception.ShortUrlExpiredException;
+import org.example.urlshortener.exception.ShortUrlNotFoundException;
 import org.example.urlshortener.util.Base62Util;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ public class UrlShortenerService {
         this.shortUrlRepository = shortUrlRepository;
     }
 
-    public ShortUrl createShortUrl(String originalUrl, Integer expireDays){
+    public ShortUrl createShortUrl(String originalUrl, Integer expireDays) {
         LocalDateTime expireAt = null;
 
         if (expireDays != null) {
@@ -29,7 +31,7 @@ public class UrlShortenerService {
         }
 
         // 1st time save to get ID
-        ShortUrl shortUrl = new ShortUrl(originalUrl,null,expireAt);
+        ShortUrl shortUrl = new ShortUrl(originalUrl, null, expireAt);
         shortUrl = shortUrlRepository.save(shortUrl);
 
         // Generate shortCode from ID
@@ -42,7 +44,7 @@ public class UrlShortenerService {
         return shortUrlRepository.save(shortUrl);
     }
 
-    public String resolveShortCode(String shortCode){
+    public String resolveShortCode(String shortCode) {
         ShortUrl shortUrl = shortUrlRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
@@ -56,20 +58,20 @@ public class UrlShortenerService {
         return shortUrl.getOriginalUrl();
     }
 
-    public ShortUrl getOriginalUrl(String shortcode) {
-        ShortUrl shortUrl = shortUrlRepository.findByShortCode(shortcode)
-                .orElseThrow(() -> new RuntimeException("Short URL not found"));
+    public ShortUrl getOriginalUrl(String shortCode) {
+        ShortUrl shortUrl = shortUrlRepository.findByShortCode(shortCode)
+                .orElseThrow(() ->
+                        new ShortUrlNotFoundException(shortCode));
 
-        if(shortUrl.isExpired()){
-            throw new RuntimeException("Short URL expired");
+        if (shortUrl.isExpired()) {
+            throw new ShortUrlExpiredException(shortCode);
         }
+
 
         return shortUrl;
     }
 
-        ShortUrl shortUrl = new ShortUrl(originalUrl,null,expireAt);
-
-        return shortUrlRepository.save(shortUrl);
-    }
 
 }
+
+

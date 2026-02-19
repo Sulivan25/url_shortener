@@ -3,6 +3,7 @@ package org.example.urlshortener.controller;
 import org.example.urlshortener.service.UrlShortenerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -17,9 +18,9 @@ public class UrlShortenerController {
         this.urlShortenerService = urlShortenerService;
     }
 
-    @GetMapping("/{shortcode}")
-    public ResponseEntity<Void> redirect(@PathVariable String shortcode) {
-        String originalUrl = urlShortenerService.resolveShortCode(shortcode);
+    @GetMapping("/{shortCode}")
+    public ResponseEntity<Void> redirect(@PathVariable String shortCode) {
+        String originalUrl = urlShortenerService.resolveShortCode(shortCode);
 
         return ResponseEntity
                 .status(HttpStatus.FOUND)
