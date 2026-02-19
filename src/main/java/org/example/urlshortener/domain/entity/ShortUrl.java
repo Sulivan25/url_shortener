@@ -18,6 +18,15 @@ public class ShortUrl {
     @Column(name = "id")
     private Long id;
 
+    public String getOriginalUrl() {
+        return originalUrl;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+
     @Column(name = "original_url", nullable = false, length = 2048) // 2048 standard length for SEO
     private String originalUrl;
 
@@ -37,6 +46,13 @@ public class ShortUrl {
 
 
     }
+
+    public String setShortCode(String shortCode) {
+        this.shortCode = shortCode;
+        return shortCode;
+    }
+
+
 
     public ShortUrl(String originalUrl, String shortCode, LocalDateTime expireAt){
 
