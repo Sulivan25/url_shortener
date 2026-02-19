@@ -7,6 +7,9 @@ import org.example.urlshortener.repository.ShortUrlRepository;
 import org.example.urlshortener.domain.entity.ShortUrl;
 import org.springframework.web.server.ResponseStatusException;
 
+import org.springframework.stereotype.Service;
+import org.example.urlshortener.repository.ShortUrlRepository;
+import org.example.urlshortener.domain.entity.ShortUrl;
 import java.time.LocalDateTime;
 
 @Service
@@ -62,6 +65,11 @@ public class UrlShortenerService {
         }
 
         return shortUrl;
+    }
+
+        ShortUrl shortUrl = new ShortUrl(originalUrl,null,expireAt);
+
+        return shortUrlRepository.save(shortUrl);
     }
 
 }
