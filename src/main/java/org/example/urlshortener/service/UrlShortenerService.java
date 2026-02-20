@@ -44,7 +44,7 @@ public class UrlShortenerService {
         return shortUrlRepository.save(shortUrl);
     }
 
-    public String resolveShortCode(String shortCode) {
+    public String getValidShortUrl(String shortCode) {
         ShortUrl shortUrl = shortUrlRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
@@ -58,18 +58,6 @@ public class UrlShortenerService {
         return shortUrl.getOriginalUrl();
     }
 
-    public ShortUrl getOriginalUrl(String shortCode) {
-        ShortUrl shortUrl = shortUrlRepository.findByShortCode(shortCode)
-                .orElseThrow(() ->
-                        new ShortUrlNotFoundException(shortCode));
-
-        if (shortUrl.isExpired()) {
-            throw new ShortUrlExpiredException(shortCode);
-        }
-
-
-        return shortUrl;
-    }
 
 
 }

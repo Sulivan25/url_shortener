@@ -20,7 +20,7 @@ public class UrlShortenerController {
 
     @GetMapping("/{shortCode}")
     public ResponseEntity<Void> redirect(@PathVariable String shortCode) {
-        String originalUrl = urlShortenerService.resolveShortCode(shortCode);
+        String originalUrl = urlShortenerService.getValidShortUrl(shortCode);
 
         return ResponseEntity
                 .status(HttpStatus.FOUND)

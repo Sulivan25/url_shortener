@@ -24,9 +24,9 @@ public class RedirectController {
 
     @GetMapping("/{shortCode}")
     public ResponseEntity<Void> redirect(@PathVariable String shortCode) {
-        ShortUrl shortUrl = urlShortenerService.getOriginalUrl(shortCode);
+        String shortUrl = urlShortenerService.getValidShortUrl(shortCode);
 
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(shortUrl.getOriginalUrl())).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(shortUrl)).build();
     }
 
 }

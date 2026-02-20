@@ -22,34 +22,37 @@ public class ShortUrl {
         return originalUrl;
     }
 
+    public Long getClickCount() {
+        return clickCount;
+    }
+    public String getShortCode() {
+        return shortCode;
+    }
     public Long getId() {
         return id;
     }
 
 
     @Column(name = "original_url", nullable = false, length = 2048) // 2048 standard length for SEO
-    private String originalUrl;
+    private final String originalUrl;
 
     @Column(name = "short_code", nullable = false, unique = true, length = 16)
     private String shortCode;
 
     @Column(name = "created_at",nullable = false)
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
     @Column(name = "expire_at")
     private LocalDateTime expireAt;
 
+
+
     @Column(name = "click_count", nullable = false)
-    private Long clickCount = 0L;
-
-    protected ShortUrl(){
+    private long clickCount;
 
 
-    }
-
-    public String setShortCode(String shortCode) {
+    public void setShortCode(String shortCode) {
         this.shortCode = shortCode;
-        return shortCode;
     }
 
 

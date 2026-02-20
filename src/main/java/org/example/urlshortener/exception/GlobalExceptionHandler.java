@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ShortUrlExpiredException.class)
     public ResponseEntity<String> handleExpired(ShortUrlExpiredException ex) {
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
+                .status(HttpStatus.GONE)
                 .body(ex.getMessage());
     }
 }
