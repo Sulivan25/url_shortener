@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import org.example.urlshortener.exception.InvalidExpirationDaysException;
 
 
 import java.time.LocalDateTime;
@@ -45,8 +46,6 @@ public class ShortUrl {
     @Column(name = "expire_at")
     private LocalDateTime expireAt;
 
-
-
     @Column(name = "click_count", nullable = false)
     private long clickCount;
 
@@ -73,5 +72,14 @@ public class ShortUrl {
 
     public boolean isExpired(){
         return expireAt != null && LocalDateTime.now().isAfter(expireAt);
+    }
+
+    public void extendExpirationDays(int days) {
+
+        if (days <= 0) {
+            throw new InvalidExpirationDaysException(shortCode,days);
+        }
+
+        expireAt = (expireAt == null ? LocalDateTime.now() : expireAt).plusDays(days);
     }
 }

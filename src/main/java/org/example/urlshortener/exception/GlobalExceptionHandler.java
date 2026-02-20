@@ -20,4 +20,11 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.GONE)
                 .body(ex.getMessage());
     }
+
+    @ExceptionHandler(InvalidExpirationDaysException.class)
+    public ResponseEntity<String> handleInvalidDays(InvalidExpirationDaysException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ex.getMessage());
+    }
 }

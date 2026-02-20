@@ -3,15 +3,11 @@ package org.example.urlshortener.service;
 import org.example.urlshortener.exception.ShortUrlExpiredException;
 import org.example.urlshortener.exception.ShortUrlNotFoundException;
 import org.example.urlshortener.util.Base62Util;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.example.urlshortener.repository.ShortUrlRepository;
 import org.example.urlshortener.domain.entity.ShortUrl;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.stereotype.Service;
-import org.example.urlshortener.repository.ShortUrlRepository;
-import org.example.urlshortener.domain.entity.ShortUrl;
 import java.time.LocalDateTime;
 
 @Service
@@ -22,6 +18,7 @@ public class UrlShortenerService {
     public UrlShortenerService(ShortUrlRepository shortUrlRepository) {
         this.shortUrlRepository = shortUrlRepository;
     }
+
 
     public ShortUrl createShortUrl(String originalUrl, Integer expireDays) {
         LocalDateTime expireAt = null;
@@ -46,10 +43,10 @@ public class UrlShortenerService {
 
     public String getValidShortUrl(String shortCode) {
         ShortUrl shortUrl = shortUrlRepository.findByShortCode(shortCode)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ShortUrlNotFoundException(shortCode));
 
         if (shortUrl.isExpired()) {
-            throw new ResponseStatusException(HttpStatus.GONE, "Short URL has expired");
+            throw new ShortUrlExpiredException(shortCode);
         }
 
         shortUrl.increaseClickCount();
@@ -57,6 +54,19 @@ public class UrlShortenerService {
 
         return shortUrl.getOriginalUrl();
     }
+
+    @Transactional
+    public void execute(String shortCode, int days) {
+        ShortUrl shortUrl = shortUrlRepository.findByShortCode(shortCode)
+                .orElseThrow(() -> new ShortUrlNotFoundException(shortCode));
+
+
+
+        shortUrl.extendExpirationDays(days);
+
+        shortUrlRepository.save(shortUrl);
+    }
+
 
 
 
