@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/short-urls")
+@RequestMapping("/admin/short-urls")
 public class ShortUrlAdminController {
 
     private final UrlShortenerService urlShortenerService;
@@ -18,7 +18,7 @@ public class ShortUrlAdminController {
         this.urlShortenerService = urlShortenerService;
     }
 
-    @PostMapping("/{shortCode}/extend")
+    @PostMapping("admin/{shortCode}/extend")
     public ResponseEntity<Void> extendExpiration(
             @PathVariable String shortCode,
             @RequestBody ExtendExpirationRequest request
