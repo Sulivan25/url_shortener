@@ -13,9 +13,7 @@ class Base62UtilTest {
 
     @Test
     void encode_positive_value() {
-        // 12345 in base62: 12345 / 62 = 199 r 7, 199 / 62 = 3 r 11, 3 / 62 = 0 r 3
-        // chars: 3 -> '3', 11 -> 'b', 7 -> '7' => "3b7"
-        assertEquals("3b7", Base62Util.encode(12345));
+        assertEquals("3d7", Base62Util.encode(12345));
     }
 
     @Test
@@ -25,7 +23,7 @@ class Base62UtilTest {
 
     @Test
     void decode_valid_string() {
-        assertEquals(12345L, Base62Util.decode("3b7"));
+        assertEquals(12345L, Base62Util.decode("3d7"));
     }
 
     @Test
