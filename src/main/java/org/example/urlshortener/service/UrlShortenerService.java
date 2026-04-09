@@ -2,6 +2,7 @@ package org.example.urlshortener.service;
 
 import org.example.urlshortener.exception.ShortUrlExpiredException;
 import org.example.urlshortener.exception.ShortUrlNotFoundException;
+import org.example.urlshortener.infrastructure.redis.RedisKeyHelper;
 import org.example.urlshortener.util.Base62Util;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -54,8 +55,13 @@ public class UrlShortenerService {
                     .get(redirectKey(shortCode));
 
             if (originalUrl != null) {
-                redisTemplate.opsForValue()
-                        .increment(clickKey(shortCode));
+                redisTemplate.opsForValue().increment(clickKey(shortCode));
+                redisTemplate.opsForValue().increment(
+                        RedisKeyHelper.hourlyClickKey(shortCode)
+                );
+                redisTemplate.opsForValue().increment(
+                        RedisKeyHelper.dailyClickKey(shortCode)
+                );
                 return originalUrl;
             }
         } catch (Exception redisDown) {
