@@ -48,4 +48,8 @@ src/main/java/org/example/urlshortener/
 ## Branches
 - `main` - production branch
 - `develop` - integration branch
-- `feature-*` / `feat-*` - feature branches
+- Working branches use a `type/short-description` slash-style convention, all lowercase, kebab-case:
+  - `feat/*` - new features (e.g. `feat/clickcount-analytics`)
+  - `fix/*` - bug fixes (e.g. `fix/invalid-expiration-days`)
+  - `test/*` - test-only changes (e.g. `test/analytics-service`)
+  - `chore/*` - tooling, CI, docs, refactors (e.g. `chore/ci-workflow`)
