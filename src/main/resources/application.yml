@@ -1,6 +1,8 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:urlshortener
+    # MODE=PostgreSQL lets H2 understand Postgres-specific SQL like INSERT ... ON CONFLICT,
+    # so the click-bucket upsert queries work in dev/test without rewriting them.
+    url: jdbc:h2:mem:urlshortener;MODE=PostgreSQL
     driver-class-name: org.h2.Driver
     username: sa
     password: ""

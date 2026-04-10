@@ -2,9 +2,11 @@ package org.example.urlshortener.scheduler;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.example.urlshortener.exception.RedisUnavailableException;
 import org.example.urlshortener.infrastructure.redis.RedisKeyHelper;
 import org.example.urlshortener.repository.ShortUrlClickHourlyRepository;
-import org.example.urlshortener.repository.ShortUrlRepository;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -12,12 +14,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class HourlyClickSyncJob {
 
     private final StringRedisTemplate redisTemplate;
-    private final ShortUrlRepository shortUrlRepository;
     private final ShortUrlClickHourlyRepository hourlyRepository;
 
     @Scheduled(fixedDelay = 60_000)
@@ -29,6 +31,7 @@ public class HourlyClickSyncJob {
                 .count(100)
                 .build();
 
+        // Redis is optional infrastructure. Skip this run if it's unavailable.
         try (Cursor<byte[]> cursor =
                      redisTemplate.getConnectionFactory()
                              .getConnection()
@@ -51,6 +54,9 @@ public class HourlyClickSyncJob {
 
                 redisTemplate.delete(key);
             }
+        } catch (RedisConnectionFailureException cause) {
+            RedisUnavailableException ex = new RedisUnavailableException("hourly click sync", cause);
+            log.warn("Skipping scheduled run: {}", ex.getMessage());
         }
     }
 }

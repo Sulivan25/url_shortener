@@ -1,9 +1,12 @@
 package org.example.urlshortener.scheduler;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.urlshortener.domain.entity.ShortUrl;
+import org.example.urlshortener.exception.RedisUnavailableException;
 import org.example.urlshortener.infrastructure.redis.RedisKeyHelper;
 import org.example.urlshortener.repository.ShortUrlRepository;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -11,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ClickCountSyncJob {
@@ -27,6 +31,8 @@ public class ClickCountSyncJob {
                 .count(100)
                 .build();
 
+        // Redis is optional infrastructure (cache, not source of truth).
+        // If it's down, skip this run rather than crashing the scheduler.
         try (Cursor<byte[]> cursor =
                      redisTemplate.getConnectionFactory()
                              .getConnection()
@@ -56,6 +62,9 @@ public class ClickCountSyncJob {
 
                 redisTemplate.delete(key);
             }
+        } catch (RedisConnectionFailureException cause) {
+            RedisUnavailableException ex = new RedisUnavailableException("click count sync", cause);
+            log.warn("Skipping scheduled run: {}", ex.getMessage());
         }
     }
 }
