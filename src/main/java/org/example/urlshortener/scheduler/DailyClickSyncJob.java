@@ -2,8 +2,10 @@ package org.example.urlshortener.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.urlshortener.exception.RedisUnavailableException;
 import org.example.urlshortener.infrastructure.redis.RedisKeyHelper;
 import org.example.urlshortener.repository.ShortUrlClickDailyRepository;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -51,8 +53,9 @@ public class DailyClickSyncJob {
 
                 redisTemplate.delete(key);
             }
-        } catch (Exception redisDown) {
-            log.warn("Skipping daily click sync — Redis unavailable: {}", redisDown.getMessage());
+        } catch (RedisConnectionFailureException cause) {
+            RedisUnavailableException ex = new RedisUnavailableException("daily click sync", cause);
+            log.warn("Skipping scheduled run: {}", ex.getMessage());
         }
     }
 }
