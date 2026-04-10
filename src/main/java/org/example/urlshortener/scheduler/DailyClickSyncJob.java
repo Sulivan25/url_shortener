@@ -1,10 +1,9 @@
 package org.example.urlshortener.scheduler;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.urlshortener.infrastructure.redis.RedisKeyHelper;
 import org.example.urlshortener.repository.ShortUrlClickDailyRepository;
-import org.example.urlshortener.repository.ShortUrlClickHourlyRepository;
-import org.example.urlshortener.repository.ShortUrlRepository;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -12,23 +11,24 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class DailyClickSyncJob {
 
     private final StringRedisTemplate redisTemplate;
-    private final ShortUrlRepository shortUrlRepository;
     private final ShortUrlClickDailyRepository dailyRepository;
 
     @Scheduled(fixedDelay = 60_000)
     @Transactional
-    public void syncHourlyClicks() {
+    public void syncDailyClicks() {
 
         ScanOptions options = ScanOptions.scanOptions()
                 .match(RedisKeyHelper.dailyPattern())
                 .count(100)
                 .build();
 
+        // Redis is optional infrastructure. Skip this run if it's unavailable.
         try (Cursor<byte[]> cursor =
                      redisTemplate.getConnectionFactory()
                              .getConnection()
@@ -51,6 +51,8 @@ public class DailyClickSyncJob {
 
                 redisTemplate.delete(key);
             }
+        } catch (Exception redisDown) {
+            log.warn("Skipping daily click sync — Redis unavailable: {}", redisDown.getMessage());
         }
     }
 }
