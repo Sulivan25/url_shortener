@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.example.urlshortener.infrastructure.redis.RedisKeyHelper.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class UrlShortenerService {
@@ -41,17 +42,21 @@ public class UrlShortenerService {
             expireAt = LocalDateTime.now().plusDays(expireDays);
         }
 
-        // 1st time save to get ID
-        ShortUrl shortUrl = new ShortUrl(originalUrl, null, expireAt, owner);
+        // Two-phase save: the real shortCode is Base62(id), but the id is only assigned
+        // by the DB on the first INSERT. The shortCode column is NOT NULL + UNIQUE, so
+        // we can't insert with null. Use a per-call unique placeholder that fits in
+        // length=16 to satisfy both constraints; the second save replaces it.
+        String placeholder = "tmp-" + UUID.randomUUID().toString().substring(0, 8);
+
+        // 1st save to get the DB-assigned ID
+        ShortUrl shortUrl = new ShortUrl(originalUrl, placeholder, expireAt, owner);
         shortUrl = shortUrlRepository.save(shortUrl);
 
-        // Generate shortCode from ID
+        // Generate the real shortCode from the assigned ID
         String shortCode = Base62Util.encode(shortUrl.getId());
-
-        // Set ShortCode
         shortUrl.setShortCode(shortCode);
 
-        // 2nd time save to update ShortCode
+        // 2nd save to replace the placeholder with the real shortCode
         return shortUrlRepository.save(shortUrl);
     }
 
