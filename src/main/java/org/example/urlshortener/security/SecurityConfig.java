@@ -73,6 +73,11 @@ public class SecurityConfig {
                         // H2 console (dev only)
                         .requestMatchers("/h2-console/**").permitAll()
 
+                        // Spring Boot's internal /error dispatcher must not be re-authenticated.
+                        // Otherwise any controller exception gets masked by a misleading
+                        // 401 response with path=/error.
+                        .requestMatchers("/error").permitAll()
+
                         // Defense in depth: matcher + class-level @PreAuthorize on admin controllers.
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
