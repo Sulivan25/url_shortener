@@ -56,7 +56,10 @@ public class HourlyClickSyncJob {
             }
         } catch (RedisConnectionFailureException cause) {
             RedisUnavailableException ex = new RedisUnavailableException("hourly click sync", cause);
-            log.warn("Skipping scheduled run: {}", ex.getMessage());
+            log.atWarn()
+                    .addKeyValue("job", "hourly_click_sync")
+                    .addKeyValue("reason", ex.getMessage())
+                    .log("scheduled_run_skipped");
         }
     }
 }
