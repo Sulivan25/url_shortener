@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    # MODE=PostgreSQL lets H2 understand Postgres-specific SQL like INSERT ... ON CONFLICT,
+    # so the click-bucket upsert queries work in dev/test without rewriting them.
+    url: jdbc:h2:mem:urlshortener;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2s
+
+app:
+  security:
+    jwt:
+      # HS256 needs a base64 secret of >= 32 bytes. Generate with: openssl rand -base64 48
+      secret: ${JWT_SECRET:ZmFrZS1kZXYtc2VjcmV0LWRvLW5vdC11c2UtaW4tcHJvZC0xMjM0NTY3ODkwMTIzNDU2}
+      access-token-ttl-minutes: 60
+      issuer: url-shortener
+    bootstrap-admin:
+      username: ${BOOTSTRAP_ADMIN_USERNAME:admin}
+      password: ${BOOTSTRAP_ADMIN_PASSWORD:admin123!}
