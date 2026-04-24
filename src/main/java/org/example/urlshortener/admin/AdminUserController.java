@@ -2,6 +2,7 @@ package org.example.urlshortener.admin;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.urlshortener.admin.dto.AdminCreateUserRequest;
 import org.example.urlshortener.admin.dto.RoleChangeRequest;
 import org.example.urlshortener.admin.dto.UserResponse;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Admin-only user management. Class-level {@code @PreAuthorize} pairs with the
  * {@code /admin/**} URL matcher in SecurityConfig as defense in depth.
  */
+@Slf4j
 @RestController
 @RequestMapping("/admin/users")
 @PreAuthorize("hasRole('ADMIN')")
@@ -53,7 +55,13 @@ public class AdminUserController {
                 request.username(),
                 passwordEncoder.encode(request.password()),
                 request.role());
-        return UserResponse.from(userRepository.save(user));
+        User saved = userRepository.save(user);
+        log.atInfo()
+                .addKeyValue("userId", saved.getId())
+                .addKeyValue("username", saved.getUsername())
+                .addKeyValue("role", saved.getRole())
+                .log("admin_user_created");
+        return UserResponse.from(saved);
     }
 
     @PatchMapping("/{id}/role")
@@ -61,7 +69,12 @@ public class AdminUserController {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User id not found: " + id));
         user.setRole(request.role());
-        return UserResponse.from(userRepository.save(user));
+        User saved = userRepository.save(user);
+        log.atInfo()
+                .addKeyValue("userId", saved.getId())
+                .addKeyValue("role", saved.getRole())
+                .log("admin_user_role_changed");
+        return UserResponse.from(saved);
     }
 
     @DeleteMapping("/{id}")
@@ -70,6 +83,9 @@ public class AdminUserController {
             throw new UsernameNotFoundException("User id not found: " + id);
         }
         userRepository.deleteById(id);
+        log.atInfo()
+                .addKeyValue("userId", id)
+                .log("admin_user_deleted");
         return ResponseEntity.noContent().build();
     }
 }

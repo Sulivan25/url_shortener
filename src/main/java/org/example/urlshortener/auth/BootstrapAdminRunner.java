@@ -38,6 +38,9 @@ public class BootstrapAdminRunner implements CommandLineRunner {
         }
         User admin = new User(bootstrapUsername, passwordEncoder.encode(bootstrapPassword), Role.ADMIN);
         userRepository.save(admin);
-        log.info("Bootstrap ADMIN created: {}", bootstrapUsername);
+        log.atInfo()
+                .addKeyValue("username", bootstrapUsername)
+                .addKeyValue("role", Role.ADMIN)
+                .log("bootstrap_admin_created");
     }
 }

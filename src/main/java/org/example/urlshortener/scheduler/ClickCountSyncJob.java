@@ -64,7 +64,10 @@ public class ClickCountSyncJob {
             }
         } catch (RedisConnectionFailureException cause) {
             RedisUnavailableException ex = new RedisUnavailableException("click count sync", cause);
-            log.warn("Skipping scheduled run: {}", ex.getMessage());
+            log.atWarn()
+                    .addKeyValue("job", "click_count_sync")
+                    .addKeyValue("reason", ex.getMessage())
+                    .log("scheduled_run_skipped");
         }
     }
 }

@@ -1,5 +1,6 @@
 package org.example.urlshortener.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.urlshortener.exception.ShortUrlExpiredException;
 import org.example.urlshortener.exception.ShortUrlNotFoundException;
 import org.example.urlshortener.infrastructure.redis.RedisKeyHelper;
@@ -18,6 +19,7 @@ import static org.example.urlshortener.infrastructure.redis.RedisKeyHelper.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class UrlShortenerService {
 
@@ -57,7 +59,13 @@ public class UrlShortenerService {
         shortUrl.setShortCode(shortCode);
 
         // 2nd save to replace the placeholder with the real shortCode
-        return shortUrlRepository.save(shortUrl);
+        ShortUrl saved = shortUrlRepository.save(shortUrl);
+        log.atInfo()
+                .addKeyValue("shortCode", shortCode)
+                .addKeyValue("ownerId", owner != null ? owner.getId() : null)
+                .addKeyValue("expireAt", expireAt)
+                .log("short_url_created");
+        return saved;
     }
 
     public Page<ShortUrl> listByOwner(Long ownerId, Pageable pageable) {
@@ -81,7 +89,10 @@ public class UrlShortenerService {
                 return originalUrl;
             }
         } catch (Exception redisDown) {
-            // log.warn("Redis down", redisDown);
+            log.atWarn()
+                    .addKeyValue("shortCode", shortCode)
+                    .addKeyValue("reason", redisDown.getClass().getSimpleName())
+                    .log("redis_unavailable");
         }
 
         // DB fallback
@@ -104,11 +115,13 @@ public class UrlShortenerService {
         ShortUrl shortUrl = shortUrlRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new ShortUrlNotFoundException(shortCode));
 
-
-
         shortUrl.extendExpirationDays(days);
         shortUrlRepository.save(shortUrl);
 
+        log.atInfo()
+                .addKeyValue("shortCode", shortCode)
+                .addKeyValue("days", days)
+                .log("short_url_extended");
     }
 
     @Transactional
@@ -116,6 +129,9 @@ public class UrlShortenerService {
         ShortUrl shortUrl = shortUrlRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new ShortUrlNotFoundException(shortCode));
         shortUrlRepository.delete(shortUrl);
+        log.atInfo()
+                .addKeyValue("shortCode", shortCode)
+                .log("short_url_deleted");
     }
 
     @Transactional
@@ -124,6 +140,10 @@ public class UrlShortenerService {
                 .orElseThrow(() -> new ShortUrlNotFoundException(shortCode));
         requireOwner(shortUrl, ownerId);
         shortUrlRepository.delete(shortUrl);
+        log.atInfo()
+                .addKeyValue("shortCode", shortCode)
+                .addKeyValue("ownerId", ownerId)
+                .log("short_url_deleted");
     }
 
     @Transactional
@@ -133,6 +153,11 @@ public class UrlShortenerService {
         requireOwner(shortUrl, ownerId);
         shortUrl.extendExpirationDays(days);
         shortUrlRepository.save(shortUrl);
+        log.atInfo()
+                .addKeyValue("shortCode", shortCode)
+                .addKeyValue("days", days)
+                .addKeyValue("ownerId", ownerId)
+                .log("short_url_extended");
     }
 
     private static void requireOwner(ShortUrl shortUrl, Long ownerId) {

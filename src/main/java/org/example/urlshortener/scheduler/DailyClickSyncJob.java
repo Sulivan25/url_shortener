@@ -55,7 +55,10 @@ public class DailyClickSyncJob {
             }
         } catch (RedisConnectionFailureException cause) {
             RedisUnavailableException ex = new RedisUnavailableException("daily click sync", cause);
-            log.warn("Skipping scheduled run: {}", ex.getMessage());
+            log.atWarn()
+                    .addKeyValue("job", "daily_click_sync")
+                    .addKeyValue("reason", ex.getMessage())
+                    .log("scheduled_run_skipped");
         }
     }
 }
