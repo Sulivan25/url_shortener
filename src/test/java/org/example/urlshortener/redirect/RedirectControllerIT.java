@@ -1,4 +1,4 @@
-package org.example.urlshortener.controller;
+package org.example.urlshortener.redirect;
 
 import org.example.urlshortener.shorturl.ShortUrl;
 import org.example.urlshortener.shorturl.ShortUrlRepository;
