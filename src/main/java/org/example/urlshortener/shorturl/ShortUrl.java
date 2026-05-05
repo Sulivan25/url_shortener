@@ -11,7 +11,7 @@ import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.urlshortener.exception.InvalidExpirationDaysException;
+import org.example.urlshortener.common.exception.InvalidExpirationDaysException;
 import org.example.urlshortener.user.User;
 
 

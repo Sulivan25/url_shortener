@@ -3,7 +3,7 @@ package org.example.urlshortener.scheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.urlshortener.shorturl.ShortUrl;
-import org.example.urlshortener.exception.RedisUnavailableException;
+import org.example.urlshortener.common.exception.RedisUnavailableException;
 import org.example.urlshortener.infrastructure.redis.RedisKeyHelper;
 import org.example.urlshortener.shorturl.ShortUrlRepository;
 import org.springframework.data.redis.RedisConnectionFailureException;

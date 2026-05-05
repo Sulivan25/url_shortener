@@ -1,4 +1,4 @@
-package org.example.urlshortener.exception;
+package org.example.urlshortener.common.exception;
 
 public class UsernameTakenException extends RuntimeException {
     public UsernameTakenException(String username) {

@@ -1,4 +1,4 @@
-package org.example.urlshortener.exception;
+package org.example.urlshortener.common.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.urlshortener.auth.dto.AuthResponse;
 import org.example.urlshortener.auth.dto.LoginRequest;
 import org.example.urlshortener.auth.dto.RegisterRequest;
-import org.example.urlshortener.exception.UsernameTakenException;
+import org.example.urlshortener.common.exception.UsernameTakenException;
 import org.example.urlshortener.auth.AuthUserPrincipal;
 import org.example.urlshortener.auth.JwtService;
 import org.example.urlshortener.user.Role;

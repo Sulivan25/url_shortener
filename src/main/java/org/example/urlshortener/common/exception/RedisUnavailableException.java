@@ -1,4 +1,4 @@
-package org.example.urlshortener.exception;
+package org.example.urlshortener.common.exception;
 
 /**
  * Thrown (or used as a marker) when a Redis operation fails because the Redis server

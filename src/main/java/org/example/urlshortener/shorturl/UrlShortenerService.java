@@ -1,8 +1,8 @@
 package org.example.urlshortener.shorturl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.urlshortener.exception.ShortUrlExpiredException;
-import org.example.urlshortener.exception.ShortUrlNotFoundException;
+import org.example.urlshortener.common.exception.ShortUrlExpiredException;
+import org.example.urlshortener.common.exception.ShortUrlNotFoundException;
 import org.example.urlshortener.infrastructure.redis.RedisKeyHelper;
 import org.example.urlshortener.user.User;
 import org.example.urlshortener.util.Base62Util;
