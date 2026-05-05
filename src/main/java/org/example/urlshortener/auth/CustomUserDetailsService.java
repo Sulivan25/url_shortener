@@ -1,4 +1,4 @@
-package org.example.urlshortener.security;
+package org.example.urlshortener.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.example.urlshortener.user.User;

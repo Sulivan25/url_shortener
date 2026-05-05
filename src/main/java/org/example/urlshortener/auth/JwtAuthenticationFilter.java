@@ -1,4 +1,4 @@
-package org.example.urlshortener.security;
+package org.example.urlshortener.auth;
 
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;

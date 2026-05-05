@@ -1,4 +1,4 @@
-package org.example.urlshortener.security;
+package org.example.urlshortener.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -6,7 +6,7 @@ import org.example.urlshortener.shorturl.ShortUrl;
 import org.example.urlshortener.shorturl.dto.CreateShortUrlRequest;
 import org.example.urlshortener.shorturl.dto.ExtendExpirationRequest;
 import org.example.urlshortener.shorturl.dto.ShortUrlResponse;
-import org.example.urlshortener.security.AuthUserPrincipal;
+import org.example.urlshortener.auth.AuthUserPrincipal;
 import org.example.urlshortener.shorturl.UrlShortenerService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
