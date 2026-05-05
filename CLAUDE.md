@@ -26,28 +26,30 @@ mvn spring-boot:run
 ```
 
 ## Project Structure
+Package-by-feature: each feature folder owns its entity + repository + service +
+controller + DTOs. Cross-cutting concerns live in dedicated folders.
 ```
 src/main/java/org/example/urlshortener/
-  admin/          - Admin-only controllers + DTOs (AdminUrlController, AdminUserController)
-  auth/           - Auth controller, AuthService, BootstrapAdminRunner, auth DTOs
-  controller/     - REST controllers (Analytics, Redirect, ShortUrl user-facing CRUD)
-  domain/entity/  - JPA entities (ShortUrl, ClickDaily, ClickHourly)
-  dto/            - Request/Response DTOs
-  exception/      - Custom exceptions and global error handler
-  infrastructure/ - Redis helpers
-  repository/     - Spring Data JPA repositories
-  scheduler/      - Scheduled jobs for click count sync
-  security/       - SecurityConfig, JwtService, JwtAuthenticationFilter, OwnershipService
-  service/        - Business logic (UrlShortenerService, AnalyticsService)
-  user/           - User entity, Role enum, UserRepository
-  util/           - Utilities (Base62 encoding)
+  shorturl/         - ShortUrl entity, repo, UrlShortenerService, ShortUrlController, DTOs
+  redirect/         - RedirectController
+  analytics/        - ClickDaily/Hourly entity+repo, AnalyticsService, AnalyticsController, DTO
+  auth/             - AuthController, AuthService, JwtService, JwtAuthenticationFilter,
+                      CustomUserDetailsService, AuthUserPrincipal, BootstrapAdminRunner, DTOs
+  user/             - User entity, Role enum, UserRepository
+  admin/            - AdminUrlController, AdminUserController + admin DTOs
+  security/         - SecurityConfig, OwnershipService, SecurityExceptionHandler (cross-cutting)
+  scheduler/        - Scheduled jobs for click count sync (cross-cutting)
+  infrastructure/   - Redis helpers (cross-cutting)
+  common/exception/ - Custom exceptions and global error handler
+  util/             - Utilities (Base62 encoding)
 
 src/test/java/org/example/urlshortener/
-  integration/    - Integration tests (@SpringBootTest + MockMvc + H2)
-  domain/entity/  - Unit tests for entities
-  service/        - Unit tests for services (mocked)
-  infrastructure/ - Unit tests for Redis helpers
-  util/           - Unit tests for utilities
+  shorturl/        - ShortUrlTest, UrlShortenerServiceTest
+  analytics/       - AnalyticsServiceTest
+  redirect/        - RedirectControllerIT
+  integration/     - Cross-cutting integration tests (@SpringBootTest + MockMvc + H2)
+  infrastructure/  - Unit tests for Redis helpers
+  util/            - Unit tests for utilities
 ```
 
 ## Coding Conventions
