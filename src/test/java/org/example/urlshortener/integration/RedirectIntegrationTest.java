@@ -1,8 +1,8 @@
 package org.example.urlshortener.integration;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.urlshortener.domain.entity.ShortUrl;
-import org.example.urlshortener.repository.ShortUrlRepository;
+import org.example.urlshortener.shorturl.ShortUrl;
+import org.example.urlshortener.shorturl.ShortUrlRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

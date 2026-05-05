@@ -1,4 +1,4 @@
-package org.example.urlshortener.dto;
+package org.example.urlshortener.shorturl.dto;
 
 public class ExtendExpirationRequest {
     private int days;

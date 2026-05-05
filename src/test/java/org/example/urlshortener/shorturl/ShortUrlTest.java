@@ -1,4 +1,4 @@
-package org.example.urlshortener.domain.entity;
+package org.example.urlshortener.shorturl;
 
 import org.example.urlshortener.exception.InvalidExpirationDaysException;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package org.example.urlshortener.security;
 
 import lombok.RequiredArgsConstructor;
-import org.example.urlshortener.repository.ShortUrlRepository;
+import org.example.urlshortener.shorturl.ShortUrlRepository;
 import org.springframework.stereotype.Component;
 
 /**

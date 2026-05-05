@@ -1,7 +1,7 @@
 package org.example.urlshortener.controller;
 
-import org.example.urlshortener.domain.entity.ShortUrl;
-import org.example.urlshortener.repository.ShortUrlRepository;
+import org.example.urlshortener.shorturl.ShortUrl;
+import org.example.urlshortener.shorturl.ShortUrlRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

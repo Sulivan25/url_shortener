@@ -1,6 +1,6 @@
-package org.example.urlshortener.dto;
+package org.example.urlshortener.shorturl.dto;
 
-import org.example.urlshortener.domain.entity.ShortUrl;
+import org.example.urlshortener.shorturl.ShortUrl;
 
 import java.time.LocalDateTime;
 

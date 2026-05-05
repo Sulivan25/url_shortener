@@ -1,4 +1,4 @@
-package org.example.urlshortener.domain.entity;
+package org.example.urlshortener.shorturl;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;

@@ -1,4 +1,4 @@
-package org.example.urlshortener.dto;
+package org.example.urlshortener.shorturl.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;

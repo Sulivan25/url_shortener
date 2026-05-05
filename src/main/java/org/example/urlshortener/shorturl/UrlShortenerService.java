@@ -1,4 +1,4 @@
-package org.example.urlshortener.service;
+package org.example.urlshortener.shorturl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.urlshortener.exception.ShortUrlExpiredException;
@@ -11,8 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-import org.example.urlshortener.repository.ShortUrlRepository;
-import org.example.urlshortener.domain.entity.ShortUrl;
+import org.example.urlshortener.shorturl.ShortUrlRepository;
+import org.example.urlshortener.shorturl.ShortUrl;
 import org.springframework.transaction.annotation.Transactional;
 import static org.example.urlshortener.infrastructure.redis.RedisKeyHelper.*;
 

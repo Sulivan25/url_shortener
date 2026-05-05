@@ -1,7 +1,7 @@
 package org.example.urlshortener.controller;
 
-import org.example.urlshortener.domain.entity.ShortUrl;
-import org.example.urlshortener.service.UrlShortenerService;
+import org.example.urlshortener.shorturl.ShortUrl;
+import org.example.urlshortener.shorturl.UrlShortenerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

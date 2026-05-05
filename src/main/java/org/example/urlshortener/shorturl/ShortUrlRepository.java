@@ -1,8 +1,8 @@
-package org.example.urlshortener.repository;
+package org.example.urlshortener.shorturl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.example.urlshortener.domain.entity.ShortUrl;
+import org.example.urlshortener.shorturl.ShortUrl;
 import java.util.Optional;
 
 public interface ShortUrlRepository extends JpaRepository<ShortUrl, Long> {

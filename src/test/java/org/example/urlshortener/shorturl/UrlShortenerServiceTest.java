@@ -1,9 +1,9 @@
-package org.example.urlshortener.service;
+package org.example.urlshortener.shorturl;
 
-import org.example.urlshortener.domain.entity.ShortUrl;
+import org.example.urlshortener.shorturl.ShortUrl;
 import org.example.urlshortener.exception.ShortUrlExpiredException;
 import org.example.urlshortener.exception.ShortUrlNotFoundException;
-import org.example.urlshortener.repository.ShortUrlRepository;
+import org.example.urlshortener.shorturl.ShortUrlRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
