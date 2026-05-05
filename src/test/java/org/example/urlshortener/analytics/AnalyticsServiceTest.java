@@ -1,10 +1,10 @@
-package org.example.urlshortener.service;
+package org.example.urlshortener.analytics;
 
-import org.example.urlshortener.domain.entity.ClickDaily;
-import org.example.urlshortener.domain.entity.ClickHourly;
-import org.example.urlshortener.dto.TimeSeriesResponse;
-import org.example.urlshortener.repository.ShortUrlClickDailyRepository;
-import org.example.urlshortener.repository.ShortUrlClickHourlyRepository;
+import org.example.urlshortener.analytics.ClickDaily;
+import org.example.urlshortener.analytics.ClickHourly;
+import org.example.urlshortener.analytics.dto.TimeSeriesResponse;
+import org.example.urlshortener.analytics.ShortUrlClickDailyRepository;
+import org.example.urlshortener.analytics.ShortUrlClickHourlyRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

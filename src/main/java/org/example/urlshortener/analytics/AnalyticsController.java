@@ -1,8 +1,8 @@
-package org.example.urlshortener.controller;
+package org.example.urlshortener.analytics;
 
 import lombok.RequiredArgsConstructor;
-import org.example.urlshortener.dto.TimeSeriesResponse;
-import org.example.urlshortener.service.AnalyticsService;
+import org.example.urlshortener.analytics.dto.TimeSeriesResponse;
+import org.example.urlshortener.analytics.AnalyticsService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

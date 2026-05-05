@@ -1,24 +1,21 @@
-package org.example.urlshortener.domain.entity;
+package org.example.urlshortener.analytics;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
-        name = "short_url_click_hourly",
+        name = "short_url_click_daily",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"short_code", "hour_bucket"})
+                @UniqueConstraint(columnNames = {"short_code", "day_bucket"})
         }
 )
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClickHourly {
+public class ClickDaily {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +24,8 @@ public class ClickHourly {
     @Column(name = "short_code", nullable = false)
     private String shortCode;
 
-    @Column(name = "hour_bucket", nullable = false)
-    private String hourBucket;
+    @Column(name = "day_bucket", nullable = false)
+    private String dayBucket;
 
     @Column(name = "click_count", nullable = false)
     private long clickCount;

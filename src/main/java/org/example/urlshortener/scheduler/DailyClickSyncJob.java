@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.urlshortener.exception.RedisUnavailableException;
 import org.example.urlshortener.infrastructure.redis.RedisKeyHelper;
-import org.example.urlshortener.repository.ShortUrlClickDailyRepository;
+import org.example.urlshortener.analytics.ShortUrlClickDailyRepository;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;

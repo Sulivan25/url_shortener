@@ -1,9 +1,9 @@
-package org.example.urlshortener.service;
+package org.example.urlshortener.analytics;
 
 import lombok.RequiredArgsConstructor;
-import org.example.urlshortener.dto.TimeSeriesResponse;
-import org.example.urlshortener.repository.ShortUrlClickDailyRepository;
-import org.example.urlshortener.repository.ShortUrlClickHourlyRepository;
+import org.example.urlshortener.analytics.dto.TimeSeriesResponse;
+import org.example.urlshortener.analytics.ShortUrlClickDailyRepository;
+import org.example.urlshortener.analytics.ShortUrlClickHourlyRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
