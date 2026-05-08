@@ -1,0 +1,16 @@
+package org.example.urlshortener.shorturl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.example.urlshortener.shorturl.ShortUrl;
+import java.util.Optional;
+
+public interface ShortUrlRepository extends JpaRepository<ShortUrl, Long> {
+
+    Optional<ShortUrl> findByShortCode(String shortCode);
+
+    // Spring Data parses "Owner_Id" as "the id field of the owner association".
+    Page<ShortUrl> findByOwner_Id(Long ownerId, Pageable pageable);
+
+}
+

@@ -1,12 +1,12 @@
 package org.example.urlshortener.admin;
 
 import lombok.RequiredArgsConstructor;
-import org.example.urlshortener.dto.ExtendExpirationRequest;
-import org.example.urlshortener.dto.ShortUrlResponse;
-import org.example.urlshortener.dto.TimeSeriesResponse;
-import org.example.urlshortener.repository.ShortUrlRepository;
-import org.example.urlshortener.service.AnalyticsService;
-import org.example.urlshortener.service.UrlShortenerService;
+import org.example.urlshortener.shorturl.dto.ExtendExpirationRequest;
+import org.example.urlshortener.shorturl.dto.ShortUrlResponse;
+import org.example.urlshortener.analytics.dto.TimeSeriesResponse;
+import org.example.urlshortener.shorturl.ShortUrlRepository;
+import org.example.urlshortener.analytics.AnalyticsService;
+import org.example.urlshortener.shorturl.UrlShortenerService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;

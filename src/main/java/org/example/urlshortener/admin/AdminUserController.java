@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.urlshortener.admin.dto.AdminCreateUserRequest;
 import org.example.urlshortener.admin.dto.RoleChangeRequest;
 import org.example.urlshortener.admin.dto.UserResponse;
-import org.example.urlshortener.exception.UsernameTakenException;
+import org.example.urlshortener.common.exception.UsernameTakenException;
 import org.example.urlshortener.user.User;
 import org.example.urlshortener.user.UserRepository;
 import org.springframework.data.domain.Page;
