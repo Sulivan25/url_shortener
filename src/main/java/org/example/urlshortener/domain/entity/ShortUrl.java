@@ -1,5 +1,8 @@
 package org.example.urlshortener.domain.entity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.urlshortener.exception.InvalidExpirationDaysException;
+import org.example.urlshortener.user.User;
 
 
 import java.io.Serializable;
@@ -41,6 +45,12 @@ public class ShortUrl implements Serializable {
     @Column(name = "click_count", nullable = false)
     private long clickCount;
 
+    // Nullable on purpose: existing rows (created before auth was added) have no owner.
+    // Service layer treats orphans as admin-only — regular USERs never see them.
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
 
     public ShortUrl(String originalUrl, String shortCode, LocalDateTime expireAt){
@@ -51,6 +61,11 @@ public class ShortUrl implements Serializable {
         this.expireAt = expireAt;
         this.clickCount = 0L;
 
+    }
+
+    public ShortUrl(String originalUrl, String shortCode, LocalDateTime expireAt, User owner){
+        this(originalUrl, shortCode, expireAt);
+        this.owner = owner;
     }
 
     public void increaseClickCount() {
